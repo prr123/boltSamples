@@ -6,7 +6,7 @@ bbolt is a embedded key value db. See https://github.com/etcd-io/bbolt for more 
 program that add a bucket and an entry into the bucket.  
 
 
-## ListEntries
+## listEntries
 program that lists all buckets or all entries of a bucket.  
 
 ## updEntry
