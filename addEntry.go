@@ -15,8 +15,8 @@ import (
 	"strings"
 
 	util "github.com/prr123/utility/utilLib"
-	bolt "go.etcd.io/bbolt"
-)
+    boltLib "db/bbolt/boltLib")
+
 
 func main () {
 
@@ -82,22 +82,19 @@ func main () {
     log.Printf("Bucket: %s\n", buckStr)
 	log.Printf("Object Key: %s Value: %s\n", objKey, objVal)
 
-	db, err := Initdb()
+	dbobj, err := boltLib.Initdb("boltTest.db")
 	if err !=nil {
 		log.Fatalf("error -- cannot init db: %v\n", err)
 	}
-	defer db.Close()
+	defer dbobj.Db.Close()
 	log.Println("success opening boltdb!")
-}
 
-
-func Initdb()(db *bolt.DB, err error) {
-
-	path := "boltTest.db"
-	db, err = bolt.Open(path, 0666, nil)
-	if err != nil {
-  		return nil, fmt.Errorf("bolt.Open: %v\n", err)
+	err = dbobj.AddEntry(buckStr, objKey, objVal)
+	if err !=nil {
+		log.Fatalf("error -- cannot add kv Entry: %v\n", err)
 	}
-	return db, nil
+	log.Println("success adding kv Entry!")
 
 }
+
+
