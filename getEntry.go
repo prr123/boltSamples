@@ -12,7 +12,7 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strings"
+//	"strings"
 
 	util "github.com/prr123/utility/utilLib"
     boltLib "db/bbolt/boltLib")
@@ -68,10 +68,11 @@ func main () {
         if kval.(string) == "none" {log.Fatalf("error: no key value provided!")}
         keyStr = kval.(string)
     }
-
-    log.Printf("debug: %t\n", dbg)
-    log.Printf("Bucket: %s\n", buckStr)
-	log.Printf("Object Key: %s\n", keyStr)
+	if dbg {
+	    log.Printf("debug: %t\n", dbg)
+    	log.Printf("Bucket: %s\n", buckStr)
+		log.Printf("Object Key: %s\n", keyStr)
+	}
 
 	dbobj, err := boltLib.Initdb("boltTest.db")
 	if err !=nil {
@@ -80,12 +81,12 @@ func main () {
 	defer dbobj.Db.Close()
 	log.Println("success opening boltdb!")
 
-	valStr, err = dbobj.GetEntry(buckStr, keyStr)
+	valStr, err := dbobj.GetEntry(buckStr, keyStr)
 	if err !=nil {
 		log.Fatalf("error --  cannot get Value: %v\n", err)
 	}
 
-	log.Println("Key: %s Value: %s\n", keyStr, valStr)
+	log.Printf("Key: %s Value: %s\n", keyStr, valStr)
 	log.Println("success getting Value!")
 
 }
